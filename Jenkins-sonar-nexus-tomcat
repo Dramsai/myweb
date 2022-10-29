@@ -22,13 +22,13 @@ pipeline{
         stage('Upload War To Nexus'){
             steps{
                   nexusArtifactUploader artifacts: [
-                       [172.31.10.63
+                       [172.31.25.132
                             type: 'war'
                        ]
                   ], 
                   credentialsId: 'nexus3', 
                   groupId: 'in.javahome', 
-                  nexusUrl: '172.31.10.63:8081', 
+                  nexusUrl: '172.31.25.132:8081', 
                   nexusVersion: 'nexus3', 
                   protocol: 'http', 
                   repository: 'sample-releases', 
@@ -39,11 +39,11 @@ pipeline{
             steps{
                 sshagent(['tomcat-new']) {
                 sh """
-                    scp -o StrictHostKeyChecking=no target/myweb-8.2172.31.8.184.1.war  ec2-user@172.31.3.101:/home/ec2-user/apache-tomcat-9.0.68/webapps/
+                    scp -o StrictHostKeyChecking=no target/myweb-8.2172.31.8.184.1.war  ec2-user@172.31.20.114:/home/ec2-user/apache-tomcat-9.0.68/webapps/
                     
-                    ssh ec2-user@172.31.3.101 /home/ec2-user/apache-tomcat-9.0.68/bin/shutdown.sh
+                    ssh ec2-user@172.31.20.114 /home/ec2-user/apache-tomcat-9.0.68/bin/shutdown.sh
                     
-                    ssh ec2-user@172.31.3.101 /home/ec2-user/apache-tomcat-9.0.68/bin/startup.sh
+                    ssh ec2-user@172.31.20.114 /home/ec2-user/apache-tomcat-9.0.68/bin/startup.sh
                 
                 """
             }
